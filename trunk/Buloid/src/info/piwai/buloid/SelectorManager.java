@@ -38,11 +38,11 @@ public class SelectorManager {
 
 	public void showOnGoogleMaps() {
 		/*
-		 * Je n'ai pas la moindre idée quant à l'utilité du paramètre nb=999.
-		 * J'ai simplement trouvé le lien tel quel dans les forums. Si quelqu'un
-		 * a la réponse, je suis preneur ;-) .
+		 * nb représente les X derniers points les plus récents à récupérer.
+		 * 
+		 * Cf http://www.rollers-coquillages.org/Ou-est-Raoul.html
 		 */
-		String query = formatWithDate("http://www.rollers-coquillages.org/getkml.php?date=%tY-%tm-%td&nb=999");
+		String query = formatWithDate("http://www.rollers-coquillages.org/getkml.php?date=%tY-%tm-%td&nb=10");
 
 		String uri = "geo:0,0?q=" + query;
 
