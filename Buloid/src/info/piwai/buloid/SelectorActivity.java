@@ -38,8 +38,6 @@ public class SelectorActivity extends Activity {
 
 		init();
 
-		selectorManager = new SelectorManager(this, datePicker);
-
 		bind();
 
 	}
@@ -52,6 +50,8 @@ public class SelectorActivity extends Activity {
 		showOnGMaps = (Button) findViewById(R.id.show_on_gmaps);
 
 		downloadPdf = (Button) findViewById(R.id.download_pdf);
+
+		selectorManager = new SelectorManager(this, datePicker);
 	}
 
 	private void bind() {
@@ -100,7 +100,7 @@ public class SelectorActivity extends Activity {
 			case MANUAL_DIALOG:
 				return createManualDialog();
 			default:
-				throw new RuntimeException("Unknown dialog id. Shouldn't happen.");
+				throw new IllegalArgumentException("Unknown dialog id. Shouldn't happen.");
 		}
 	}
 
@@ -114,12 +114,13 @@ public class SelectorActivity extends Activity {
 		dialogBuilder //
 				.setTitle(title) //
 				.setView(linkifyText(messageId)) //
-				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
+				.setPositiveButton(android.R.string.ok, //
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						});
 
 		return dialogBuilder.create();
 	}

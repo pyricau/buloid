@@ -22,13 +22,16 @@ public class SelectorManager {
 	}
 
 	public void showOnGoogleMaps() {
+		/*
+		 * Je n'ai pas la moindre idée quant à l'utilité du paramètre nb=999.
+		 * J'ai simplement trouvé le lien tel quel dans les forums. Si quelqu'un
+		 * a la réponse, je suis preneur ;-) .
+		 */
 		String query = formatWithDate("http://www.rollers-coquillages.org/getkml.php?date=%tY-%tm-%td&nb=999");
 
 		String uri = "geo:0,0?q=" + query;
 
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-
-		activity.startActivity(intent);
+		showUri(uri);
 	}
 
 	private String formatWithDate(String format) {
@@ -39,12 +42,15 @@ public class SelectorManager {
 		return String.format(format, calendar, calendar, calendar);
 	}
 
+	private void showUri(String uri) {
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+		activity.startActivity(intent);
+	}
+
 	public void showPdf() {
 		String uri = formatWithDate("http://www.rollers-coquillages.org/parcours/%tY%tm%td/feuillederoute.pdf");
 
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-
-		activity.startActivity(intent);
+		showUri(uri);
 	}
 
 }
