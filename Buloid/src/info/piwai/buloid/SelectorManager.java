@@ -20,7 +20,9 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 public class SelectorManager {
 
@@ -29,31 +31,53 @@ public class SelectorManager {
 	private final DatePicker	datePicker;
 
 	public SelectorManager(Activity activity, DatePicker datePicker) {
-		assert activity != null;
-		assert datePicker != null;
+		if (activity == null) {
+			throw new IllegalArgumentException("activity should not be null");
+		}
+		if (datePicker == null) {
+			throw new IllegalArgumentException("datePicker should not be null");
+		}
 
 		this.activity = activity;
 		this.datePicker = datePicker;
 	}
 
 	public void showOnGoogleMaps() {
+
 		/*
 		 * nb représente les X derniers points les plus récents à récupérer.
 		 * 
 		 * Cf http://www.rollers-coquillages.org/Ou-est-Raoul.html
 		 */
-		String query = formatWithDate("http://www.rollers-coquillages.org/getkml.php?date=%tY-%tm-%td&nb=10");
 
-		String uri = "geo:0,0?q=" + query;
+		showUriWithDayFormat("geo:0,0?q=http://www.rollers-coquillages.org/getkml.php?date=%tY-%tm-%td&nb=10");
 
-		showUri(uri);
 	}
 
-	private String formatWithDate(String format) {
+	private void showUriWithDayFormat(String format) {
 
+		Calendar day = extractDay();
+
+		if (isSunday(day)) {
+			String uri = formatWithDate(format, day);
+			showUri(uri);
+		} else {
+			Toast.makeText(activity, "Erreur : la date sélectionnée n'est pas un dimanche, mais un " + dayName(day) + ".",
+					Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private Calendar extractDay() {
 		Calendar calendar = Calendar.getInstance();
-
 		calendar.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+		return calendar;
+	}
+
+	private boolean isSunday(Calendar day) {
+		return day.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+	}
+
+	private String formatWithDate(String format, Calendar calendar) {
 		return String.format(format, calendar, calendar, calendar);
 	}
 
@@ -62,10 +86,12 @@ public class SelectorManager {
 		activity.startActivity(intent);
 	}
 
-	public void showPdf() {
-		String uri = formatWithDate("http://www.rollers-coquillages.org/parcours/%tY%tm%td/feuillederoute.pdf");
+	private String dayName(Calendar day) {
+		return (String) DateFormat.format("EEEE", day);
+	}
 
-		showUri(uri);
+	public void showPdf() {
+		showUriWithDayFormat("http://www.rollers-coquillages.org/parcours/%tY%tm%td/feuillederoute.pdf");
 	}
 
 }
