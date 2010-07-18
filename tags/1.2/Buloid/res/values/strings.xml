@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Buloid</string>
+    
+    <string name="about">"\
+Application créée par Pierre-Yves Ricau (py.ricau@gmail.com). Les données utilisées sont \
+la propriété de l'association Roller &amp; Coquillages (http://www.rollers-coquillages.org).
+
+Cette application est open source, sous licence Apache 2.0. \
+Cela signifie que le code source est accessible à tous, et librement modifiable.
+
+Adresse du projet : http://buloid.googlecode.com
+
+Un jour, j'ai galéré pour rejoindre la rando en cours de route. Cette application est là pour que cela ne se reproduise plus ;-).
+
+Merci aux organisateurs de la randonnée, qui font un super boulot. N'oubliez pas : serrez à droite, et roulez couverts !\
+"</string>
+    
+    <string name="manual">"\
+Buloid est une application permettant de connaître et de suivre en temps réel \
+le trajet de la randonnée Roller &amp; Coquillages (http://www.rollers-coquillages.org).
+
+Sélectionnez la date de la randonnée qui vous intéresse.
+\
+Vous pouvez ensuite voir le trajet et l'état actuel du parcours de la randonnée \
+sur Google Maps en cliquant sur \"Voir sur Google Maps\".
+L'aller est tracé en vert, et le retour en rouge.
+La position actuelle de la randonnée est représentée par le marqueur bleu.
+Notez que les données ne sont pas automatiquement rafraîchies, \
+il faut revenir sur cet écran (en appuyant deux fois sur précédent depuis Google Maps), puis recliquer sur \"Voir sur Google Maps\".
+
+Il est aussi possible de consulter la feuille de route éditée par l'association.
+En cliquant sur \"Feuille de route\", le fichier PDF sera automatiquement téléchargé par votre navigateur.
+Il suffit ensuite de cliquer sur le nom du fichier pour qu'il s'ouvre avec Quickoffice.\
+"</string>
+</resources>
