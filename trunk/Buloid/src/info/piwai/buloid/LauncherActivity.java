@@ -21,6 +21,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.SpannableString;
+import android.text.format.DateFormat;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Menu;
@@ -29,59 +30,89 @@ import android.view.View;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class SelectorActivity extends Activity {
+public class LauncherActivity extends Activity {
+
+	private static final String	DAY_FORMAT		= "dd MMMM";
 
 	private static final int	ABOUT_DIALOG	= 1;
 
 	private static final int	MANUAL_DIALOG	= ABOUT_DIALOG + 1;
 
-	private DatePicker			datePicker;
+	private Button				previousSunday;
+
+	private Button				nextSunday;
+
+	private TextView			sundayView;
 
 	private Button				showOnGMaps;
 
 	private Button				downloadPdf;
 
-	private SelectorManager		selectorManager;
+	private LauncherManager		launcherManager;
+
+	private SundaySelector		sundaySelector;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		init();
-
 		bind();
-
+		updateSundayView();
 	}
 
 	private void init() {
-		setContentView(R.layout.selector);
+		setContentView(R.layout.launcher);
 
-		datePicker = (DatePicker) findViewById(R.id.date_picker);
+		sundaySelector = new SundaySelector();
 
+		previousSunday = (Button) findViewById(R.id.previous_sunday);
+		nextSunday = (Button) findViewById(R.id.next_sunday);
 		showOnGMaps = (Button) findViewById(R.id.show_on_gmaps);
-
 		downloadPdf = (Button) findViewById(R.id.download_pdf);
+		sundayView = (TextView) findViewById(R.id.sunday_view);
 
-		selectorManager = new SelectorManager(this, datePicker);
+		launcherManager = new LauncherManager(this, sundaySelector);
 	}
 
 	private void bind() {
+
+		previousSunday.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				sundaySelector.previousSunday();
+				updateSundayView();
+			}
+		});
+
+		nextSunday.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				sundaySelector.nextSunday();
+				updateSundayView();
+			}
+		});
+
 		showOnGMaps.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				selectorManager.showOnGoogleMaps();
+				launcherManager.showOnGoogleMaps();
 			}
 		});
 		downloadPdf.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				selectorManager.showPdf();
+				launcherManager.showPdf();
 			}
 		});
+	}
+
+	private void updateSundayView() {
+		CharSequence formatedSunsay = DateFormat.format(DAY_FORMAT, sundaySelector.getCalendar());
+		sundayView.setText(formatedSunsay);
 	}
 
 	@Override
